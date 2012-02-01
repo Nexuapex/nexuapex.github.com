@@ -2,7 +2,7 @@
 layout: default
 title: R&eacute;sum&eacute;
 ---
-<section>
+<section id="contact-information">
   <div class="row">
     <div class="span6">
       <h2>Contact Information</h2>
@@ -25,13 +25,13 @@ title: R&eacute;sum&eacute;
   </div>
 </section>
 
-<section>
+<section id="objective">
   <h2>Objective</h2>
   <p>An internship or full-time position working on the graphics engine or supporting
      systems for games or other real-time simulations.</p>
 </section>
 
-<section>
+<section id="project-experience">
   <div class="page-header">
     <h1>Team Project Experience</h1>
   </div>
@@ -73,7 +73,7 @@ title: R&eacute;sum&eacute;
   </div>
 </section>
 
-<section>
+<section id="skills-and-interests">
   <div class="page-header">
     <h1>Selected Skills and Interests</h1>
   </div>
@@ -152,3 +152,9 @@ title: R&eacute;sum&eacute;
     </div>
   </div>
 </section>
+
+<script type="text/javascript">
+  function pageInit() {
+    $('#skills-and-interests li").popover();
+  }
+</script>

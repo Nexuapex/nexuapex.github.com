@@ -63,7 +63,12 @@
           }
         },
         {
-          load: '/js/bootstrap.min.js'
+          load: '/js/bootstrap.min.js',
+          complete: function () {
+            if (window.pageInit) {
+              window.pageInit();
+            }
+          }
         }
       ]);
     </script>
