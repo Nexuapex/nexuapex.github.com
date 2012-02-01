@@ -33,7 +33,7 @@
                 {% if page.url == link.url %}
                   {% assign mode = 'active' %}
                 {% endif %}
-                <li><a class="{{ mode }}" href="{{ link.url }}">{{ link.title }}</a></li>
+                <li class="{{ mode }}"><a href="{{ link.url }}">{{ link.title }}</a></li>
               {% endfor %}
             </div>
           </div>
