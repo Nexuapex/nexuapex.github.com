@@ -82,8 +82,8 @@ title: R&eacute;sum&eacute;
       <h4>Advanced understanding of&hellip;</h4>
       <ul>
         <li>C</li>
-        <li title="C++" data-content="Strong understanding of idiomatic C++, the changes in C++11, the advantages of composition over inheritence,
-          advanced templates, the advantages and disadvantages of the STL, optimizations, exception safety, and debugging.">C++</li>
+        <li><a href="#" title="C++" data-content="Strong understanding of idiomatic C++, the changes in C++11, the advantages of composition over inheritence,
+          advanced templates, the advantages and disadvantages of the STL, optimizations, exception safety, and debugging.">C++</a></li>
         <li>Objective-C</li>
         <li>Lua</li>
       </ul>
@@ -155,6 +155,10 @@ title: R&eacute;sum&eacute;
 
 <script type="text/javascript">
   function pageInit() {
-    $('#skills-and-interests li').popover();
+    $('#skills-and-interests a')
+      .popover()
+      .click(function (event) {
+        event.preventDefault();
+      });
   }
 </script>
