@@ -30,7 +30,7 @@
             <ul class="nav">
               {% for link in site.navigation %}
                 {% assign mode = nil %}
-                {% if page.url = link.url %]
+                {% if page.url = link.url %}
                   {% assign mode = 'active' %}
                 {% endif %}
                 <li><a class="{{ mode }}" href="{{ link.url }}">{{ link.title }}</a></li>
