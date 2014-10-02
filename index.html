@@ -2,11 +2,13 @@
 layout: default
 ---
 <header class="page-header">
-  <h1>Hello.</h1>
+  <!-- Hello. -->
 </header>
 <div class="row">
   <div class="span12">
-    <p>My name is John Calsbeek. I'm currently a programmer at Sony Santa Monica. This
-       space is long overdue for a bit of interesting content.</p>
+    {% for post in site.posts %}
+      <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
+      <p class="lead">{{ post.subhead }}</p>
+    {% endfor %}
   </div>
 </div>

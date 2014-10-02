@@ -1,3 +1,2 @@
-navigation:
-- title: R&eacute;sum&eacute;
-  url: /resume.html
+url: http://www.johncalsbeek.com/
+exclude: [vendor]
