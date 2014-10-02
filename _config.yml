@@ -1,2 +1,2 @@
 url: http://www.johncalsbeek.com/
-exclude: [vendor]
+exclude: [Gemfile, vendor]
