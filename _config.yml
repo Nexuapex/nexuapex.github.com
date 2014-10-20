@@ -1,2 +1,3 @@
 url: http://www.johncalsbeek.com/
 exclude: [Gemfile, vendor]
+highlighter: pygments
