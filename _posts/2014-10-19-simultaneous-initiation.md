@@ -12,6 +12,8 @@ An interesting feature of the Redis protocol is that the structure you use to se
 
 Like all the best bugs, this one was not immediately reproducible. All I could do was apologize to my colleague, ask them to let me know if it happened again, retreat to my desk, and try to muddle through it. *Maybe there’s a bug in the Windows version of the Redis server that occasionally gets its wires crossed and sends a client’s own message back to itself… or maybe there’s a bug in our custom version of [hiredis][hiredis]…*
 
+#### Into the crucible
+
 I got lucky. Another user reported an issue: the interprocess communication system simply wasn’t working at all on his machine. When I looked at his box, I noticed that our monitoring tool was continually restarting the Redis server process. Looking at the server log revealed the first clue: the server wasn’t starting up because another process was already using the port that it was configured to use. The [TCPView][tcpview] program (from the unfathomably useful [Sysinternals][sysinternals] suite of utilities for Windows) revealed that something very strange was going on: one of our applications had successfully made an outgoing TCP connection to localhost on the port that Redis uses, but the socket wasn’t connected to a Redis server—it was connected to *itself*.
 
 When I finished scraping my brain matter off nearby surfaces, I decided that I needed to get familiar with the bug’s *modus operandi*. Not being a network programmer normally, I wasn’t sure if a socket is supposed to be able to connect to itself. Let’s ask our listeners:
@@ -48,7 +50,7 @@ Stack Overflow provided the answer to that rhetorical question: the [TCP state d
 
 That is presumably the procedure that has been co-opted into allowing a socket to connect to itself—the process is entirely symmetric and works just as well if the packets rebound off of a solid wall right back at the sender. In my opinion, it’s not within the spirit of the law—it’s hardly “simultaneous” with only one socket!—but it does explain why TCP doesn’t trip over its own feet.
 
----
+#### “I suppose you’re wondering why I’ve called you all here…”
 
 I can live with the notion that if I *explicitly ask* a socket to connect to itself, WinSock will allow it. I can’t think of any use for this peculiarity, especially since it isn’t portable, but perhaps someone else can. And while RFC-lawyering passes the time, it doesn’t help with the real issue: I never request this useless loopback socket, but in some circumstances I get one anyway.
 
@@ -62,7 +64,9 @@ In fact, on both Windows and Mac, ephemeral port numbers are allocated sequentia
 
 To make sure that this was indeed the problem, I wrote a [Python script][gist] which allocates sockets until the system-wide ephemeral port gets near a target number, and tries to connect to it (without explicitly calling `bind()`). I’ve used it to make the issue with our tool reproducible on demand, and it also nicely exhibits the behavior difference between Windows and Mac.
 
-We ended up working around the issue by switching to a port number that is outside the ephemeral port range. Amusingly, as soon as we had hunted down all the places that this port number had proliferated, we discovered that the new port number we picked was incompatible with one of the chat clients that some people were using, so we had to change it again. I guess you can’t fight fate… <span class="text-muted">∎</span>
+#### To the pain
+
+We ended up working around the issue by switching to a port number that is outside the ephemeral port range. Amusingly, as soon as we had hunted down all the places that this port number had proliferated, we discovered that the new port number we picked was incompatible with one of the chat clients that some people were using, so we had to change it again. I guess you can’t fight fate. <span class="text-muted">∎</span>
 
 [redis]: http://redis.io
 [pubsub]: http://redis.io/topics/pubsub
