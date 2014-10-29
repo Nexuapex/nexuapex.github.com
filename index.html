@@ -2,13 +2,9 @@
 layout: default
 ---
 <header class="page-header">
-  <!-- Hello. -->
+  <p>Hi. I’m <a href="http://twitter.com/jcalsbeek">@jcalsbeek</a>.</p>
 </header>
-<div class="row">
-  <div class="span12">
-    {% for post in site.posts %}
-      <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
-      <p class="lead">{{ post.subhead }}</p>
-    {% endfor %}
-  </div>
-</div>
+{% for post in site.posts %}
+  <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
+  <p class="lead">{{ post.subhead }}</p>
+{% endfor %}
